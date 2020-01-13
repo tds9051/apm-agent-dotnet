@@ -56,6 +56,13 @@ namespace Elastic.Apm.Model
 					break;
 			}
 
+			foreach (IDataParameter param in dbCommand.Parameters)
+			{
+				span.Labels.Add(param.ParameterName, param.Value?.ToString());
+			}
+			span.Labels.Add("database", dbCommand.Connection.Database);
+
+
 			span.End();
 		}
 	}
